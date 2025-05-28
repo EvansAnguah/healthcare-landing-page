@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FutureCare Medical Center</title>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#4361EE',secondary:'#4CC9F0'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+font-family: 'Inter', sans-serif;
+overflow-x: hidden;
+}
+h1, h2, h3, h4, h5, h6 {
+font-family: 'Poppins', sans-serif;
+}
+.btn {
+font-family: 'Montserrat', sans-serif;
+}
+.splash-screen {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: #121a2b;
+display: flex;
+justify-content: center;
+align-items: center;
+z-index: 9999;
+transition: opacity 0.8s ease-out;
+}
+.splash-logo {
+width: 200px;
+height: 200px;
+position: relative;
+}
+.heartbeat-container {
+position: absolute;
+top: 50%;
+left: 0;
+width: 100%;
+height: 2px;
+background: transparent;
+transform: translateY(-50%);
+}
+.heartbeat {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: linear-gradient(90deg, transparent 0%, #4CC9F0 50%, transparent 100%);
+animation: heartbeat-pulse 2s infinite, heartbeat-move 5s forwards;
+box-shadow: 0 0 15px #4CC9F0;
+}
+@keyframes heartbeat-pulse {
+0% { opacity: 0.2; height: 2px; }
+50% { opacity: 1; height: 4px; }
+100% { opacity: 0.2; height: 2px; }
+}
+@keyframes heartbeat-move {
+0% { transform: translateX(-100%); }
+100% { transform: translateX(100%); }
+}
+.medical-cross {
+position: absolute;
+width: 80px;
+height: 80px;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+opacity: 0;
+animation: cross-appear 1s ease-out 0.5s forwards;
+}
+.medical-cross::before,
+.medical-cross::after {
+content: '';
+position: absolute;
+background-color: white;
+box-shadow: 0 0 15px rgba(76, 201, 240, 0.8);
+}
+.medical-cross::before {
+width: 20px;
+height: 80px;
+top: 0;
+left: 50%;
+transform: translateX(-50%);
+}
+.medical-cross::after {
+width: 80px;
+height: 20px;
+top: 50%;
+left: 0;
+transform: translateY(-50%);
+}
+@keyframes cross-appear {
+0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+.dna-strand {
+position: absolute;
+width: 100px;
+height: 100px;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+opacity: 0;
+animation: dna-appear 1s ease-out 2s forwards, dna-rotate 3s linear 2s infinite;
+}
+.dna-helix {
+position: absolute;
+width: 100%;
+height: 10px;
+background: linear-gradient(90deg, #4CC9F0, #7209B7);
+border-radius: 5px;
+box-shadow: 0 0 10px rgba(76, 201, 240, 0.6);
+}
+.dna-helix:nth-child(1) { top: 0; transform: rotate(0deg); }
+.dna-helix:nth-child(2) { top: 25%; transform: rotate(45deg); }
+.dna-helix:nth-child(3) { top: 50%; transform: rotate(90deg); }
+.dna-helix:nth-child(4) { top: 75%; transform: rotate(135deg); }
+@keyframes dna-appear {
+0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+@keyframes dna-rotate {
+0% { transform: translate(-50%, -50%) rotate(0deg); }
+100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+.background {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: linear-gradient(135deg, #E8F4FF 0%, #F5F9FF 100%);
+z-index: -2;
+transform: scale(1.5);
+opacity: 0;
+transition: transform 1.5s ease-out, opacity 1.5s ease-out;
+}
+.background.active {
+transform: scale(1);
+opacity: 1;
+}
+.pattern {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-image: radial-gradient(circle at 10% 20%, rgba(76, 201, 240, 0.05) 0%, transparent 30%),
+radial-gradient(circle at 90% 80%, rgba(114, 9, 183, 0.05) 0%, transparent 30%),
+radial-gradient(circle at 50% 50%, rgba(67, 97, 238, 0.05) 0%, transparent 60%);
+z-index: -1;
+opacity: 0;
+transition: opacity 1.5s ease-out;
+}
+.pattern.active {
+opacity: 1;
+}
+.main-container {
+max-width: 1200px;
+width: 80%;
+margin: 5vh auto;
+min-height: 90vh;
+background: rgba(255, 255, 255, 0.1);
+backdrop-filter: blur(10px);
+-webkit-backdrop-filter: blur(10px);
+border: 1px solid rgba(255, 255, 255, 0.2);
+border-radius: 16px;
+box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+padding: 2rem;
+opacity: 0;
+transform: translateY(30px);
+transition: opacity 1s ease-out, transform 1s ease-out;
+}
+.main-container.active {
+opacity: 1;
+transform: translateY(0);
+}
+.service-card {
+background: rgba(255, 255, 255, 0.1);
+backdrop-filter: blur(5px);
+-webkit-backdrop-filter: blur(5px);
+border: 1px solid rgba(255, 255, 255, 0.2);
+border-radius: 12px;
+transition: all 0.3s ease;
+}
+.service-card:hover {
+transform: translateY(-5px);
+box-shadow: 0 10px 25px rgba(67, 97, 238, 0.15);
+border-color: rgba(76, 201, 240, 0.3);
+}
+.icon-container {
+transition: all 0.3s ease;
+}
+.icon-container:hover {
+transform: scale(1.1);
+}
+.typing-effect::after {
+content: "|";
+animation: blink 1s infinite;
+}
+@keyframes blink {
+0%, 100% { opacity: 1; }
+50% { opacity: 0; }
+}
+.contact-button {
+background: linear-gradient(135deg, #4361EE 0%, #3A0CA3 100%);
+transition: all 0.3s ease;
+}
+.contact-button:hover {
+transform: scale(1.05);
+box-shadow: 0 0 15px rgba(67, 97, 238, 0.5);
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+-webkit-appearance: none;
+margin: 0;
+}
+.custom-checkbox {
+appearance: none;
+-webkit-appearance: none;
+width: 20px;
+height: 20px;
+border: 2px solid #4CC9F0;
+border-radius: 4px;
+outline: none;
+transition: all 0.2s ease;
+position: relative;
+cursor: pointer;
+}
+.custom-checkbox:checked {
+background-color: #4361EE;
+border-color: #4361EE;
+}
+.custom-checkbox:checked::before {
+content: '';
+position: absolute;
+top: 3px;
+left: 6px;
+width: 6px;
+height: 10px;
+border: solid white;
+border-width: 0 2px 2px 0;
+transform: rotate(45deg);
+}
+.custom-radio {
+appearance: none;
+-webkit-appearance: none;
+width: 20px;
+height: 20px;
+border: 2px solid #4CC9F0;
+border-radius: 50%;
+outline: none;
+transition: all 0.2s ease;
+position: relative;
+cursor: pointer;
+}
+.custom-radio:checked {
+border-color: #4361EE;
+}
+.custom-radio:checked::before {
+content: '';
+position: absolute;
+top: 4px;
+left: 4px;
+width: 8px;
+height: 8px;
+border-radius: 50%;
+background-color: #4361EE;
+}
+.custom-switch {
+position: relative;
+display: inline-block;
+width: 50px;
+height: 24px;
+}
+.custom-switch input {
+opacity: 0;
+width: 0;
+height: 0;
+}
+.switch-slider {
+position: absolute;
+cursor: pointer;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background-color: #ccc;
+transition: .4s;
+border-radius: 34px;
+}
+.switch-slider:before {
+position: absolute;
+content: "";
+height: 16px;
+width: 16px;
+left: 4px;
+bottom: 4px;
+background-color: white;
+transition: .4s;
+border-radius: 50%;
+}
+input:checked + .switch-slider {
+background-color: #4361EE;
+}
+input:checked + .switch-slider:before {
+transform: translateX(26px);
+}
+</style>
+</head>
+<body>
+<div class="splash-screen">
+<div class="splash-logo">
+<div class="heartbeat-container">
+<div class="heartbeat"></div>
+</div>
+<div class="medical-cross"></div>
+<div class="dna-strand">
+<div class="dna-helix"></div>
+<div class="dna-helix"></div>
+<div class="dna-helix"></div>
+<div class="dna-helix"></div>
+</div>
+</div>
+</div>
+<div class="background"></div>
+<div class="pattern"></div>
+<div id="loginModal" class="fixed inset-0 z-50 hidden">
+<div class="absolute inset-0 bg-black/30 backdrop-blur-sm transition-all duration-300" onclick="hideLoginModal()"></div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md">
+<div class="bg-white/80 backdrop-blur-xl p-8 rounded-lg shadow-2xl mx-4 transform transition-all duration-300 scale-95 opacity-0" id="modalContent">
+<div class="flex justify-between items-center mb-6">
+<h2 class="text-2xl font-semibold text-gray-800">Welcome Back</h2>
+<button onclick="hideLoginModal()" class="text-gray-500 hover:text-gray-700 transition-colors">
+<i class="ri-close-line text-2xl"></i>
+</button>
+</div>
+<form class="space-y-4">
+<div>
+<label class="block text-gray-700 mb-2" for="login-email">Email Address</label>
+<input type="email" id="login-email" class="w-full px-4 py-2 rounded border-none bg-white/70 focus:ring-2 focus:ring-primary outline-none" placeholder="your@email.com">
+</div>
+<div>
+<label class="block text-gray-700 mb-2" for="login-password">Password</label>
+<input type="password" id="login-password" class="w-full px-4 py-2 rounded border-none bg-white/70 focus:ring-2 focus:ring-primary outline-none" placeholder="••••••••">
+</div>
+<div class="flex items-center justify-between">
+<label class="flex items-center">
+<input type="checkbox" class="custom-checkbox mr-2">
+<span class="text-gray-700">Remember me</span>
+</label>
+<a href="#" class="text-primary hover:text-primary/80 transition-colors">Forgot Password?</a>
+</div>
+<button type="submit" class="w-full bg-primary text-white py-2 px-4 rounded-button font-medium hover:bg-opacity-90 transition-all">Login</button>
+</form>
+<p class="mt-4 text-center text-gray-600">
+Don't have an account? 
+<a href="/register" class="text-primary hover:text-primary/80 transition-colors">Sign up</a>
+</p>
+</div>
+</div>
+</div>
+<div class="main-container">
+<header class="mb-12">
+<div class="flex justify-between items-center">
+<div class="text-3xl font-['Pacifico'] text-primary">MEDIcare</div>
+<nav class="hidden md:flex space-x-8 items-center">
+<a href="#" class="text-gray-800 hover:text-primary transition-colors">Home</a>
+<a href="#" class="text-gray-800 hover:text-primary transition-colors">Services</a>
+<a href="#" class="text-gray-800 hover:text-primary transition-colors">Doctors</a>
+<a href="#" class="text-gray-800 hover:text-primary transition-colors">Technology</a>
+<a href="#" class="text-gray-800 hover:text-primary transition-colors">Contact</a>
+<div class="relative group">
+<button class="text-gray-800 hover:text-primary transition-colors flex items-center">
+Join <i class="ri-arrow-down-s-line ml-1"></i>
+</button>
+<div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+<a href="register.html" class="block px-4 py-2 text-gray-800 hover:bg-primary hover:text-white transition-colors">Sign Up</a>
+<button onclick="showLoginModal()" class="block w-full text-left px-4 py-2 text-gray-800 hover:bg-primary hover:text-white transition-colors">Login</button>
+</div>
+</div>
+</nav>
+<div class="md:hidden w-8 h-8 flex items-center justify-center">
+<i class="ri-menu-line text-xl text-gray-800"></i>
+</div>
+</div>
+</header>
+<section class="welcome-section mb-16">
+<div class="flex flex-col md:flex-row items-center">
+<div class="md:w-1/2 mb-8 md:mb-0">
+<h1 class="text-4xl md:text-5xl font-bold mb-4 text-gray-800">The Future of <span class="text-primary">Healthcare</span> is Here</h1>
+<p class="text-lg text-gray-600 mb-6 typing-effect" id="typing-text">Advanced medical technology for personalized care</p>
+<div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+<button class="bg-primary text-white py-3 px-6 rounded-button font-medium hover:bg-opacity-90 transition-all whitespace-nowrap">Book Appointment</button>
+<button class="border-2 border-primary text-primary py-3 px-6 rounded-button font-medium hover:bg-primary hover:bg-opacity-10 transition-all whitespace-nowrap">Virtual Tour</button>
+</div>
+</div>
+<div class="md:w-1/2 flex justify-center">
+<div class="relative w-full max-w-md h-64 md:h-80 rounded-lg overflow-hidden">
+<img src="lab.jpg" alt="Future Healthcare" class="w-full h-full object-cover object-top rounded-lg">
+</div>
+</div>
+</div>
+</section>
+<section class="about-section mb-16">
+<h2 class="text-3xl font-semibold mb-8 text-center text-gray-800">Why Choose FutureCare</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="text-center">
+<div class="icon-container w-20 h-20 flex items-center justify-center mx-auto mb-4 bg-blue-50 rounded-full">
+<i class="ri-microscope-line text-3xl text-primary"></i>
+</div>
+<h3 class="text-xl font-semibold mb-2 text-gray-800">Advanced Diagnostics</h3>
+<p class="text-gray-600">State-of-the-art diagnostic tools that provide accurate results with minimal waiting time.</p>
+</div>
+<div class="text-center">
+<div class="icon-container w-20 h-20 flex items-center justify-center mx-auto mb-4 bg-blue-50 rounded-full">
+<i class="ri-robot-line text-3xl text-primary"></i>
+</div>
+<h3 class="text-xl font-semibold mb-2 text-gray-800">Robotic Surgery</h3>
+<p class="text-gray-600">Precision robotic surgery systems for minimally invasive procedures and faster recovery.</p>
+</div>
+<div class="text-center">
+<div class="icon-container w-20 h-20 flex items-center justify-center mx-auto mb-4 bg-blue-50 rounded-full">
+<i class="ri-heart-pulse-line text-3xl text-primary"></i>
+</div>
+<h3 class="text-xl font-semibold mb-2 text-gray-800">Personalized Care</h3>
+<p class="text-gray-600">AI-driven treatment plans tailored to your unique genetic profile and health history.</p>
+</div>
+</div>
+</section>
+<section class="services-section mb-16">
+<h2 class="text-3xl font-semibold mb-8 text-center text-gray-800">Our Services</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="service-card p-6">
+<div class="w-12 h-12 flex items-center justify-center mb-4 bg-blue-50 rounded-full">
+<i class="ri-brain-line text-2xl text-primary"></i>
+</div>
+<h3 class="text-xl font-semibold mb-2 text-gray-800">Neurology</h3>
+<p class="text-gray-600 mb-4">Advanced brain mapping and neural treatment using cutting-edge technology.</p>
+<a href="#" class="text-primary font-medium flex items-center">
+Learn more
+<i class="ri-arrow-right-line ml-1"></i>
+</a>
+</div>
+<div class="service-card p-6">
+<div class="w-12 h-12 flex items-center justify-center mb-4 bg-blue-50 rounded-full">
+<i class="ri-heart-line text-2xl text-primary"></i>
+</div>
+<h3 class="text-xl font-semibold mb-2 text-gray-800">Cardiology</h3>
+<p class="text-gray-600 mb-4">Comprehensive heart care with 3D imaging and minimally invasive procedures.</p>
+<a href="#" class="text-primary font-medium flex items-center">
+Learn more
+<i class="ri-arrow-right-line ml-1"></i>
+</a>
+</div>
+<div class="service-card p-6">
+<div class="w-12 h-12 flex items-center justify-center mb-4 bg-blue-50 rounded-full">
+<i class="ri-capsule-line text-2xl text-primary"></i>
+</div>
+<h3 class="text-xl font-semibold mb-2 text-gray-800">Oncology</h3>
+<p class="text-gray-600 mb-4">Targeted cancer therapies using precision medicine and immunotherapy.</p>
+<a href="#" class="text-primary font-medium flex items-center">
+Learn more
+<i class="ri-arrow-right-line ml-1"></i>
+</a>
+</div>
+<div class="service-card p-6">
+<div class="w-12 h-12 flex items-center justify-center mb-4 bg-blue-50 rounded-full">
+<i class="ri-eye-line text-2xl text-primary"></i>
+</div>
+<h3 class="text-xl font-semibold mb-2 text-gray-800">Ophthalmology</h3>
+<p class="text-gray-600 mb-4">Laser eye surgery and advanced retinal treatments with minimal recovery time.</p>
+<a href="#" class="text-primary font-medium flex items-center">
+Learn more
+<i class="ri-arrow-right-line ml-1"></i>
+</a>
+</div>
+<div class="service-card p-6">
+<div class="w-12 h-12 flex items-center justify-center mb-4 bg-blue-50 rounded-full">
+<i class="ri-mental-health-line text-2xl text-primary"></i>
+</div>
+<h3 class="text-xl font-semibold mb-2 text-gray-800">Orthopedics</h3>
+<p class="text-gray-600 mb-4">3D-printed implants and robotic joint replacement for perfect precision.</p>
+<a href="#" class="text-primary font-medium flex items-center">
+Learn more
+<i class="ri-arrow-right-line ml-1"></i>
+</a>
+</div>
+<div class="service-card p-6">
+<div class="w-12 h-12 flex items-center justify-center mb-4 bg-blue-50 rounded-full">
+<i class="ri-psychotherapy-line text-2xl text-primary"></i>
+</div>
+<h3 class="text-xl font-semibold mb-2 text-gray-800">Telemedicine</h3>
+<p class="text-gray-600 mb-4">Virtual consultations with AI-assisted diagnostics from the comfort of home.</p>
+<a href="#" class="text-primary font-medium flex items-center">
+Learn more
+<i class="ri-arrow-right-line ml-1"></i>
+</a>
+</div>
+</div>
+</section>
+<section class="appointment-section mb-16">
+<div class="bg-blue-50 rounded-lg p-8">
+<h2 class="text-3xl font-semibold mb-6 text-center text-gray-800">Schedule Your Visit</h2>
+<form class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="block text-gray-700 mb-2" for="name">Full Name</label>
+<input type="text" id="name" class="w-full px-4 py-2 rounded border-none bg-white focus:ring-2 focus:ring-primary outline-none" placeholder="John Smith">
+</div>
+<div>
+<label class="block text-gray-700 mb-2" for="email">Email Address</label>
+<input type="email" id="email" class="w-full px-4 py-2 rounded border-none bg-white focus:ring-2 focus:ring-primary outline-none" placeholder="john@example.com">
+</div>
+<div>
+<label class="block text-gray-700 mb-2" for="phone">Phone Number</label>
+<input type="tel" id="phone" class="w-full px-4 py-2 rounded border-none bg-white focus:ring-2 focus:ring-primary outline-none" placeholder="(555) 123-4567">
+</div>
+<div>
+<label class="block text-gray-700 mb-2" for="date">Preferred Date</label>
+<input type="date" id="date" class="w-full px-4 py-2 rounded border-none bg-white focus:ring-2 focus:ring-primary outline-none">
+</div>
+<div>
+<label class="block text-gray-700 mb-2">Department</label>
+<div class="relative">
+<select class="w-full appearance-none px-4 py-2 pr-8 rounded border-none bg-white focus:ring-2 focus:ring-primary outline-none">
+<option>Select Department</option>
+<option>Neurology</option>
+<option>Cardiology</option>
+<option>Oncology</option>
+<option>Ophthalmology</option>
+<option>Orthopedics</option>
+</select>
+<div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+<i class="ri-arrow-down-s-line text-gray-500"></i>
+</div>
+</div>
+</div>
+<div>
+<label class="block text-gray-700 mb-2">Appointment Type</label>
+<div class="flex space-x-4">
+<label class="flex items-center">
+<input type="radio" name="appointment-type" class="custom-radio mr-2">
+<span>In-person</span>
+</label>
+<label class="flex items-center">
+<input type="radio" name="appointment-type" class="custom-radio mr-2">
+<span>Virtual</span>
+</label>
+</div>
+</div>
+<div class="md:col-span-2">
+<label class="block text-gray-700 mb-2" for="message">Additional Information</label>
+<textarea id="message" rows="4" class="w-full px-4 py-2 rounded border-none bg-white focus:ring-2 focus:ring-primary outline-none" placeholder="Please describe your symptoms or reason for visit"></textarea>
+</div>
+<div class="md:col-span-2">
+<label class="flex items-center">
+<input type="checkbox" class="custom-checkbox mr-2">
+<span class="text-gray-700">I agree to the privacy policy and terms of service</span>
+</label>
+</div>
+<div class="md:col-span-2 flex justify-center">
+<button type="submit" class="bg-primary text-white py-3 px-8 rounded-button font-medium hover:bg-opacity-90 transition-all whitespace-nowrap">Schedule Appointment</button>
+</div>
+</form>
+</div>
+</section>
+<section class="testimonials-section mb-16">
+<h2 class="text-3xl font-semibold mb-8 text-center text-gray-800">Patient Experiences</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="bg-white p-6 rounded-lg shadow-sm">
+<div class="flex items-center mb-4">
+<div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+<span class="text-primary font-semibold">ER</span>
+</div>
+<div>
+<h4 class="font-semibold">Emily Richardson</h4>
+<p class="text-gray-500 text-sm">Cardiac Patient</p>
+</div>
+</div>
+<p class="text-gray-600">"The robotic heart surgery was incredible. I was back on my feet in just days instead of weeks. The medical team explained everything using 3D models, which helped me understand the procedure completely."</p>
+<div class="flex mt-4">
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+</div>
+</div>
+<div class="bg-white p-6 rounded-lg shadow-sm">
+<div class="flex items-center mb-4">
+<div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+<span class="text-primary font-semibold">MJ</span>
+</div>
+<div>
+<h4 class="font-semibold">Michael Johnson</h4>
+<p class="text-gray-500 text-sm">Neurology Patient</p>
+</div>
+</div>
+<p class="text-gray-600">"The brain mapping technology they used for my treatment was like something from science fiction. The precision was remarkable, and the recovery time was much shorter than I expected. Truly cutting-edge care."</p>
+<div class="flex mt-4">
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-half-fill text-yellow-400"></i>
+</div>
+</div>
+</div>
+</section>
+<section class="technology-section mb-16">
+<h2 class="text-3xl font-semibold mb-8 text-center text-gray-800">Our Technology</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+<div>
+<h3 class="text-2xl font-semibold mb-4 text-gray-800">AI-Powered Diagnostics</h3>
+<p class="text-gray-600 mb-6">Our artificial intelligence systems analyze thousands of medical images per second, detecting patterns that human eyes might miss. This technology has improved our diagnostic accuracy by 37% and reduced waiting times by 65%.</p>
+<ul class="space-y-3">
+<li class="flex items-start">
+<div class="w-6 h-6 flex items-center justify-center mr-2 mt-0.5">
+<i class="ri-check-line text-primary"></i>
+</div>
+<span class="text-gray-700">Neural network image analysis</span>
+</li>
+<li class="flex items-start">
+<div class="w-6 h-6 flex items-center justify-center mr-2 mt-0.5">
+<i class="ri-check-line text-primary"></i>
+</div>
+<span class="text-gray-700">Predictive health monitoring</span>
+</li>
+<li class="flex items-start">
+<div class="w-6 h-6 flex items-center justify-center mr-2 mt-0.5">
+<i class="ri-check-line text-primary"></i>
+</div>
+<span class="text-gray-700">Real-time treatment optimization</span>
+</li>
+</ul>
+</div>
+<div class="relative w-full h-64 md:h-80 rounded-lg overflow-hidden">
+<img src="lab2.jpg" alt="AI Diagnostics" class="w-full h-full object-cover object-top rounded-lg">
+</div>
+</div>
+</section>
+<section class="stats-section mb-16">
+<div class="bg-gradient-to-r from-primary to-secondary rounded-lg p-8 text-white">
+<h2 class="text-3xl font-semibold mb-8 text-center">Our Impact</h2>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+<div>
+<div class="text-4xl font-bold mb-2">98%</div>
+<p>Patient Satisfaction</p>
+</div>
+<div>
+<div class="text-4xl font-bold mb-2">45%</div>
+<p>Faster Recovery Times</p>
+</div>
+<div>
+<div class="text-4xl font-bold mb-2">25,000+</div>
+<p>Successful Procedures</p>
+</div>
+<div>
+<div class="text-4xl font-bold mb-2">150+</div>
+<p>Specialist Physicians</p>
+</div>
+</div>
+</div>
+</section>
+<footer class="text-center md:text-left">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+<div>
+<div class="text-2xl font-['Pacifico'] text-primary mb-4">MEDIcare</div>
+<p class="text-gray-600 mb-4">Pioneering the future of healthcare with advanced technology and compassionate care.</p>
+<div class="flex space-x-4">
+<a href="#" class="w-8 h-8 flex items-center justify-center bg-blue-50 rounded-full hover:bg-blue-100 transition-colors">
+<i class="ri-facebook-fill text-primary"></i>
+</a>
+<a href="#" class="w-8 h-8 flex items-center justify-center bg-blue-50 rounded-full hover:bg-blue-100 transition-colors">
+<i class="ri-twitter-fill text-primary"></i>
+</a>
+<a href="#" class="w-8 h-8 flex items-center justify-center bg-blue-50 rounded-full hover:bg-blue-100 transition-colors">
+<i class="ri-linkedin-fill text-primary"></i>
+</a>
+<a href="#" class="w-8 h-8 flex items-center justify-center bg-blue-50 rounded-full hover:bg-blue-100 transition-colors">
+<i class="ri-instagram-fill text-primary"></i>
+</a>
+</div>
+</div>
+<div>
+<h4 class="font-semibold text-lg mb-4 text-gray-800">Quick Links</h4>
+<ul class="space-y-2">
+<li><a href="#" class="text-gray-600 hover:text-primary transition-colors">About Us</a></li>
+<li><a href="#" class="text-gray-600 hover:text-primary transition-colors">Our Doctors</a></li>
+<li><a href="#" class="text-gray-600 hover:text-primary transition-colors">Services</a></li>
+<li><a href="#" class="text-gray-600 hover:text-primary transition-colors">Appointments</a></li>
+<li><a href="#" class="text-gray-600 hover:text-primary transition-colors">News & Research</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-semibold text-lg mb-4 text-gray-800">Departments</h4>
+<ul class="space-y-2">
+<li><a href="#" class="text-gray-600 hover:text-primary transition-colors">Neurology</a></li>
+<li><a href="#" class="text-gray-600 hover:text-primary transition-colors">Cardiology</a></li>
+<li><a href="#" class="text-gray-600 hover:text-primary transition-colors">Oncology</a></li>
+<li><a href="#" class="text-gray-600 hover:text-primary transition-colors">Ophthalmology</a></li>
+<li><a href="#" class="text-gray-600 hover:text-primary transition-colors">Orthopedics</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-semibold text-lg mb-4 text-gray-800">Contact Us</h4>
+<ul class="space-y-2">
+<li class="flex items-start">
+<div class="w-5 h-5 flex items-center justify-center mr-2 mt-0.5">
+<i class="ri-map-pin-line text-primary"></i>
+</div>
+<span class="text-gray-600">123 Innovation Way, Medical District, CA 90210</span>
+</li>
+<li class="flex items-start">
+<div class="w-5 h-5 flex items-center justify-center mr-2 mt-0.5">
+<i class="ri-phone-line text-primary"></i>
+</div>
+<span class="text-gray-600">+1 (555) 987-6543</span>
+</li>
+<li class="flex items-start">
+<div class="w-5 h-5 flex items-center justify-center mr-2 mt-0.5">
+<i class="ri-mail-line text-primary"></i>
+</div>
+<span class="text-gray-600">contact@futurecare.com</span>
+</li>
+<li class="flex items-start">
+<div class="w-5 h-5 flex items-center justify-center mr-2 mt-0.5">
+<i class="ri-time-line text-primary"></i>
+</div>
+<span class="text-gray-600">Mon-Fri: 8am-8pm, Sat: 9am-5pm</span>
+</li>
+</ul>
+</div>
+</div>
+<div class="border-t pt-6 text-center text-gray-600">
+<p>&copy; 2025 FutureCare Medical Center. All rights reserved.</p>
+</div>
+</footer>
+</div>
+<div class="fixed bottom-6 right-6 z-10">
+<button class="contact-button w-14 h-14 flex items-center justify-center rounded-full text-white shadow-lg">
+<i class="ri-chat-1-line text-2xl"></i>
+</button>
+</div>
+<script id="splash-screen-handler">
+document.addEventListener('DOMContentLoaded', function() {
+setTimeout(function() {
+const splashScreen = document.querySelector('.splash-screen');
+const background = document.querySelector('.background');
+const pattern = document.querySelector('.pattern');
+const mainContainer = document.querySelector('.main-container');
+splashScreen.style.opacity = '0';
+setTimeout(function() {
+splashScreen.style.display = 'none';
+background.classList.add('active');
+pattern.classList.add('active');
+mainContainer.classList.add('active');
+}, 800);
+}, 5000);
+});
+</script>
+<script id="typing-effect">
+document.addEventListener('DOMContentLoaded', function() {
+const text = "Advanced medical technology for personalized care";
+const typingText = document.getElementById('typing-text');
+let i = 0;
+typingText.textContent = '';
+typingText.classList.add('typing-effect');
+function typeWriter() {
+if (i < text.length) {
+typingText.textContent += text.charAt(i);
+i++;
+setTimeout(typeWriter, 50);
+} else {
+typingText.classList.remove('typing-effect');
+}
+}
+setTimeout(typeWriter, 6000);
+});
+</script>
+<script id="modal-controls">
+document.addEventListener('DOMContentLoaded', function() {
+const modal = document.getElementById('loginModal');
+const modalContent = document.getElementById('modalContent');
+window.showLoginModal = function() {
+modal.classList.remove('hidden');
+setTimeout(() => {
+modalContent.classList.add('scale-100', 'opacity-100');
+modalContent.classList.remove('scale-95', 'opacity-0');
+}, 50);
+};
+window.hideLoginModal = function() {
+modalContent.classList.remove('scale-100', 'opacity-100');
+modalContent.classList.add('scale-95', 'opacity-0');
+setTimeout(() => {
+modal.classList.add('hidden');
+}, 300);
+};
+});
+</script>
+<script id="form-controls">
+document.addEventListener('DOMContentLoaded', function() {
+const checkboxes = document.querySelectorAll('.custom-checkbox');
+const radios = document.querySelectorAll('.custom-radio');
+const switches = document.querySelectorAll('.custom-switch input');
+checkboxes.forEach(checkbox => {
+checkbox.addEventListener('click', function() {
+this.checked = !this.checked;
+});
+});
+radios.forEach(radio => {
+radio.addEventListener('click', function() {
+const name = this.getAttribute('name');
+document.querySelectorAll(`input[name="${name}"]`).forEach(r => {
+r.checked = false;
+});
+this.checked = true;
+});
+});
+switches.forEach(switchInput => {
+switchInput.addEventListener('change', function() {
+this.checked = !this.checked;
+});
+});
+});
+</script>
+</body>
+</html>

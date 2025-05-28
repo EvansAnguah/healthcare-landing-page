@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - FutureCare Medical Center</title>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#4361EE',secondary:'#4CC9F0'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #E8F4FF 0%, #F5F9FF 100%);
+  min-height: 100vh;
+}
+.custom-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #4CC9F0;
+  border-radius: 4px;
+  outline: none;
+  transition: all 0.2s ease;
+  position: relative;
+  cursor: pointer;
+}
+.custom-checkbox:checked {
+  background-color: #4361EE;
+  border-color: #4361EE;
+}
+.custom-checkbox:checked::before {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 6px;
+  width: 6px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+</style>
+</head>
+<body>
+<div class="min-h-screen flex flex-col">
+  <nav class="bg-white shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16">
+        <div class="flex items-center">
+          <a href="medi.html" class="text-2xl font-['Pacifico'] text-primary">MEDIcare</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div class="flex-grow flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12">
+    <div class="max-w-md w-full bg-white/80 backdrop-blur-xl p-8 rounded-lg shadow-2xl">
+      <div class="text-center mb-8">
+        <h2 class="text-3xl font-bold text-gray-800">Welcome Back</h2>
+        <p class="mt-2 text-gray-600">Login to access your healthcare dashboard</p>
+      </div>
+      <form class="space-y-6" action="" method="POST">
+        <div>
+          <label class="block text-gray-700 mb-2" for="email">Email Address</label>
+          <input type="email" id="email" name="email" class="w-full px-4 py-2 rounded border-none bg-white focus:ring-2 focus:ring-primary outline-none" required>
+        </div>
+        <div>
+          <label class="block text-gray-700 mb-2" for="password">Password</label>
+          <div class="relative">
+            <input type="password" id="password" name="password" class="w-full px-4 py-2 rounded border-none bg-white focus:ring-2 focus:ring-primary outline-none" required>
+            <button type="button" onclick="togglePassword('password')" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700">
+              <i class="ri-eye-line"></i>
+            </button>
+          </div>
+        </div>
+        <div class="flex items-center justify-between">
+          <label class="flex items-center">
+            <input type="checkbox" class="custom-checkbox mr-2">
+            <span class="text-gray-700">Remember me</span>
+          </label>
+          <a href="#" class="text-primary hover:text-primary/80">Forgot Password?</a>
+        </div>
+        <button type="submit" class="w-full bg-primary text-white py-2 px-4 rounded-button font-medium hover:bg-opacity-90 transition-all">Login</button>
+        <div class="relative">
+          <div class="absolute inset-0 flex items-center">
+            <div class="w-full border-t border-gray-300"></div>
+          </div>
+          <div class="relative flex justify-center text-sm">
+            <span class="px-2 bg-white/80 text-gray-500">Or continue with</span>
+          </div>
+        </div>
+        <div class="grid grid-cols-3 gap-3">
+          <button type="button" class="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-button shadow-sm bg-white text-gray-700 hover:bg-gray-50">
+            <i class="ri-google-fill text-xl"></i>
+          </button>
+          <button type="button" class="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-button shadow-sm bg-white text-gray-700 hover:bg-gray-50">
+            <i class="ri-apple-fill text-xl"></i>
+          </button>
+          <button type="button" class="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-button shadow-sm bg-white text-gray-700 hover:bg-gray-50">
+            <i class="ri-facebook-fill text-xl"></i>
+          </button>
+        </div>
+      </form>
+      <p class="mt-6 text-center text-gray-600">
+        Don't have an account?
+        <a href="register.html" class="text-primary hover:text-primary/80 font-medium">Sign up</a>
+      </p>
+    </div>
+  </div>
+  <footer class="bg-white mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <p class="text-center text-gray-500">&copy; 2025 FutureCare Medical Center. All rights reserved.</p>
+    </div>
+  </footer>
+</div>
+<script id="form-controls">
+document.addEventListener('DOMContentLoaded', function() {
+  window.togglePassword = function(id) {
+    const input = document.getElementById(id);
+    const icon = input.nextElementSibling.querySelector('i');
+    
+    if (input.type === 'password') {
+      input.type = 'text';
+      icon.classList.replace('ri-eye-line', 'ri-eye-off-line');
+    } else {
+      input.type = 'password';
+      icon.classList.replace('ri-eye-off-line', 'ri-eye-line');
+    }
+  };
+  const form = document.querySelector('form');
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    // Form submission logic here
+    console.log('Form submitted');
+  });
+});
+</script>
+</body>
+</html>
